@@ -77,6 +77,8 @@ produces the following table:
 ![Table3](https://github.com/agnivsen/MatlabToLaTeX/assets/5153445/b1105028-8932-4576-ae75-9b6c34fe470e)
 
 
+
+
 ## Dependencies
 
 - Needs **Matlab 2023a** or later

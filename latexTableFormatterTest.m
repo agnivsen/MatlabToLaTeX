@@ -36,6 +36,7 @@ settings.ShowColumnGradientArrow = true; % turning on col arrow display
 settings.RowGradient = [1 1 0]; % direction of desired metric
 settings.ColumnGradient = [1 0 1 1 0 1 1 0 0 1]; % direction of desired metric
 settings.RowGroupHeader = rowGroupHeaders;
+settings.TableLabel = 'my_amazing_table';
 
 fprintf('\nShowing the <strong>second</strong> example of a <strong>LaTeX table with row-grouping</strong>\n\n');
 latexTableFormatter(Data, colHeaders, rowHeaders, settings);
@@ -58,6 +59,7 @@ settings.RowGradient = [1 1 0 1 0 1 0 0 1]; % direction of desired metric
 settings.ColumnGradient = [1 0 1]; % direction of desired metric
 settings.ColGroupHeader = colGroupHeaders;
 settings.ColorScheme = 1;
+settings.TableSpan = 'page';
 
 fprintf('\nShowing the <strong>third</strong> example of a <strong>LaTeX table with column-grouping</strong>\n\n');
 latexTableFormatter(Data, colHeaders, rowHeaders, settings);

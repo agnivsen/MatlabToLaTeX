@@ -1,3 +1,5 @@
+% latexTableFormatter: this is a script to convert data array from Matlab
+% to color-coded tables in LaTeX.
 % Any element in <Data> having the avoidable value of '-111111' will be
 % replaced by a 'x' mark
 % Arguments:
@@ -34,6 +36,9 @@
 %                                       [DEFAULT: 'console']
 %       -  SwitchToWhiteThreshold:  text color switched to white if grayscale value of cell 
 %                                                       below this threshold [DEFAULT: 0.4]
+%       -  TableSpan:  options are 'column', for column-wide tables and
+%                           'page', for page-wide table
+%      - TableLabel: adds the label to table
 
 function latexTableFormatter(Data, EveryColHeader, EveryRowHeader, settings)
 
@@ -132,6 +137,19 @@ function latexTableFormatter(Data, EveryColHeader, EveryRowHeader, settings)
         SwitchToWhiteThreshold = 0.4;
     end       
 
+    if isfield(settings,'TableSpan')
+        assert(strcmp(settings.TableSpan, 'column') || strcmp(settings.TableSpan, 'page'), 'Table can span either <column> or <width>');
+        tableSpan = settings.TableSpan;
+    else
+        tableSpan = 'column';
+    end   
+
+    if isfield(settings,'TableLabel')
+        tableLabel = settings.TableLabel;
+    else
+        tableLabel = 'ToDo:add_table_label';
+    end   
+
     % Use these packages:
     fprintf(['--: Use the following <strong>packages</strong>:\n\n\\usepackage[export]{adjustbox}\n\\usepackage{' ...
         'booktabs}\n\\usepackage{colortbl}\n\\usepackage{pifont}\n\\usepackage{multirow}\n\n']);
@@ -206,7 +224,11 @@ function latexTableFormatter(Data, EveryColHeader, EveryRowHeader, settings)
     Data = round(Data, Precision);
 
     %% Starting to build actual LaTeX string:
-    defaultHeader = '\begin{table}[t] \begin{adjustbox}{width=\textwidth,center} \begin{tabular}{';
+    if strcmp(tableSpan, 'page')
+        defaultHeader = '\begin{table*}[t] \begin{adjustbox}{width=\textwidth,center} \begin{tabular}{';
+    else
+        defaultHeader = '\begin{table}[t] \begin{adjustbox}{width=\textwidth,center} \begin{tabular}{';
+    end
 
     opString = defaultHeader;
 
@@ -339,7 +361,11 @@ function latexTableFormatter(Data, EveryColHeader, EveryRowHeader, settings)
     end
     % Appending table footer:
     opString = [opString '\hline'];
-    opString = [opString '\bottomrule \end{tabular} \end{adjustbox} \caption{ToDo: put actual captions...}   \label{tab_label_ToChange} \end{table}'];
+    if strcmp(tableSpan, 'page')
+        opString = [opString '\bottomrule \end{tabular} \end{adjustbox} \caption{ToDo: put actual captions...}   \label{' tableLabel '} \end{table*}'];
+    else
+        opString = [opString '\bottomrule \end{tabular} \end{adjustbox} \caption{ToDo: put actual captions...}   \label{' tableLabel '} \end{table}'];
+    end
 
     if(strcmp(OutputLocation, 'console'))
         fprintf('\n\n==============\nThe output <strong>LaTeX table</strong> is as follows:\n\n%s \n\n ==============\n\n\n', ...
