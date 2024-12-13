@@ -77,6 +77,13 @@ produces the following table:
 ![Table3](https://github.com/agnivsen/MatlabToLaTeX/assets/5153445/b1105028-8932-4576-ae75-9b6c34fe470e)
 
 
+### Additional help:
+
+Please type 
+
+        help latexTableFormatter
+
+in the Matlab command window for additional information about this script
 
 
 ## Dependencies
